@@ -1,0 +1,138 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AllGitesController!
+{% endblock %}
+
+{% block body %}
+	<style>
+		.example-wrapper {
+			margin: 1em auto;
+			max-width: 800px;
+			width: 95%;
+			font: 18px / 1.5 sans-serif;
+		}
+		.example-wrapper code {
+			background: #F5F5F5;
+			padding: 2px 6px;
+		}
+	</style>
+	<div class="container ">
+
+		<div class="row">
+			{% for result in afficher %}
+				<div class="card col-5 mx-auto my-3">
+					<div class="card-body ">
+						<h5 class="card-title">Nom:
+							{{ result.nom }}</h5>
+						<p class="card-text">localisation:
+							{{ result.localisation }}</p>
+						<p class="card-text">Surface habitable:
+							{{ result.surfacehHabitable }}</p>
+						<p class="card-text">Nombre de chambres:
+							{{ result.nombreChambres }}</p>
+						<p class="card-text">Nombre de couchages:
+							{{ result.nombreCouchage }}</p>
+						<p class="card-text">Accepte les animaux:
+							{{ result.accepteAnimaux ? 'Oui' : 'Non' }}</p>
+						<ul>
+							<li>Propriétaire:
+							</li>
+							<ul>
+								<li>{{ result.proprietaires.prenom ~ " " ~ result.proprietaires.nom }}
+								</li>
+								<li>{{ result.proprietaires.email }}
+								</li>
+								<li>{{ result.proprietaires.telephone }}
+								</li>
+
+							</ul>
+						</ul>
+						<ul>
+							<li>Contact :
+							</li>
+							<ul>
+								<li>{{ result.contact.prenom ~ " " ~ result.contact.nom }}
+								</li>
+								<li>{{ result.contact.email }}
+								</li>
+								<li>{{ result.contact.telephone }}
+								</li>
+								<li>{{ result.contact.horairedisponibilite }}
+								</li>
+							</ul>
+						</ul>
+						{% for equipement in result.equipement %}
+							<ul>
+								<li>Équipement :
+								</li>
+								<ul>
+									<li>
+										lave-vaiselle :
+										{{equipement.laveVaiselle ? 'Oui' : 'Non'}}
+									</li>
+									<li>
+										lave-linge :
+										{{equipement.laveLinge ? 'Oui' : 'Non'}}
+									</li>
+									<li>
+										climatisation :
+										{{equipement.climatisation ? 'Oui' : 'Non'}}
+									</li>
+									<li>
+										television :
+										{{equipement.television ? 'Oui' : 'Non'}}
+									</li>
+									<li>
+										terrasse :
+										{{equipement.terrasse ? 'Oui' : 'Non'}}
+									</li>
+									<li>
+										barbecue :
+										{{equipement.bbq ? 'Oui' : 'Non'}}
+									</li>
+									<li>
+										piscine privée :
+										{{equipement.piscinePrivee ? 'Oui' : 'Non'}}
+									</li>
+									<li>
+										piscine public :
+										{{equipement.piscinePublic ? 'Oui' : 'Non'}}
+									</li>
+									<li>
+										tennis :
+										{{equipement.tennis ? 'Oui' : 'Non'}}
+									</li>
+									<li>
+										ping-pong :
+										{{equipement.pingPong ? 'Oui' : 'Non'}}
+									</li>
+								</ul>
+							</ul>
+						{% endfor %}
+						{% for tarifLocatif in result.tarifLocation %}
+							<ul>
+								<li>tarif hebdomadaire :
+									{{tarifLocatif.tarifHebdomadaire}}
+								</li>
+							</ul>
+						{% endfor %}
+
+						{% if result.accepteAnimaux %}
+							{% for tarifAnimaux in result.tarifAnimaux %}
+								<ul>
+									<li>Tarif pour les animaux :
+										{{ tarifAnimaux.tarif }}
+									</li>
+								</ul>
+							{% endfor %}
+						{% else %}
+							
+						{% endif %}
+
+
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+{% endblock %}
