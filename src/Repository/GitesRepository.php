@@ -8,8 +8,10 @@ use App\Entity\Gites;
 use App\Entity\Proprietaires;
 use App\Entity\TarifAnimaux;
 use App\Entity\TarifLocation;
+use App\Model\SearchData;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Query\ResultSetMapping;
+use Knp\Component\Pager\PaginatorInterface;
+
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -42,6 +44,32 @@ class GitesRepository extends ServiceEntityRepository
         $query = $this->getEntityManager()->createQuery($dql);
         return $query->getResult();
     }
+
+
+    public function findByEquipementsCriteria(array $criteria): array
+    {
+        $qb = $this->createQueryBuilder('g')
+            ->leftJoin('g.equipement', 'equipement')
+            ->leftJoin('g.tarifLocation', 'tarifLocation')
+            ->leftJoin('g.tarifAnimaux', 'tarifAnimaux');
+
+        if (isset($criteria['laveVaisselle'])) {
+            $qb->join('g.equipement', 'e')
+                ->andWhere('e.laveVaisselle = :laveVaisselle')
+                ->setParameter('laveVaisselle', $criteria['laveVaisselle']);
+        } elseif (array_key_exists('laveLinge', $criteria)) {
+            $qb->join('g.equipement', 'e')  // Utilisez la même jointure avec 'e'
+                ->andWhere('e.laveLinge = :laveLinge')  // Utilisez 'e.laveLinge'
+                ->setParameter('laveLinge', $criteria['laveLinge']);
+        }
+
+        // Ajoutez ici d'autres conditions basées sur les équipements
+        $result =  $qb->getQuery()->getResult();
+        dump($result); // Utilisez dump pour afficher les résultats dans le profiler Symfony
+
+        return $result;
+    }
+
 
 
     //    /**
