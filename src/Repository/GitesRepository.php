@@ -2,16 +2,9 @@
 
 namespace App\Repository;
 
-use App\Entity\Contact;
-use App\Entity\Equipements;
-use App\Entity\Gites;
-use App\Entity\Proprietaires;
-use App\Entity\TarifAnimaux;
-use App\Entity\TarifLocation;
-use App\Model\SearchData;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Knp\Component\Pager\PaginatorInterface;
 
+use App\Entity\Gites;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -48,52 +41,44 @@ class GitesRepository extends ServiceEntityRepository
 
     public function findByEquipementsCriteria(array $criteria): array
     {
-        $qb = $this->createQueryBuilder('g')
-            ->leftJoin('g.equipement', 'equipement')
-            ->leftJoin('g.tarifLocation', 'tarifLocation')
-            ->leftJoin('g.tarifAnimaux', 'tarifAnimaux');
 
-        if (isset($criteria['laveVaisselle'])) {
-            $qb->join('g.equipement', 'e')
-                ->andWhere('e.laveVaisselle = :laveVaisselle')
-                ->setParameter('laveVaisselle', $criteria['laveVaisselle']);
-        } elseif (array_key_exists('laveLinge', $criteria)) {
-            $qb->join('g.equipement', 'e')  // Utilisez la même jointure avec 'e'
-                ->andWhere('e.laveLinge = :laveLinge')  // Utilisez 'e.laveLinge'
-                ->setParameter('laveLinge', $criteria['laveLinge']);
+        $queryBuilder = $this->createQueryBuilder('g')
+            ->leftJoin('g.equipement', 'e')
+            ->leftJoin('g.tarifLocation', 'tl');
+
+
+        $equipments = [
+            'laveLinge', 'laveVaiselle', 'climatisation', 'television',
+            'terrasse', 'bbq', 'piscinePrivee', 'piscinePublic',
+            'pingPong', 'tennis'
+        ];
+
+        foreach ($equipments as $equipment) {
+            if (!empty($criteria[$equipment])) {
+                $queryBuilder->andWhere("e.$equipment = :$equipment")
+                    ->setParameter($equipment, true);
+            }
         }
 
-        // Ajoutez ici d'autres conditions basées sur les équipements
-        $result =  $qb->getQuery()->getResult();
-        dump($result); // Utilisez dump pour afficher les résultats dans le profiler Symfony
+        
+            if (!empty($criteria['localisation'])) {
+                $queryBuilder->andWhere("g.localisation = :localisation")
+                    ->setParameter('localisation', $criteria['localisation']);
+            }
 
-        return $result;
+            if (!empty($criteria['region'])) {
+                $queryBuilder->andWhere("g.region = :region")
+                    ->setParameter('region', $criteria['region']);
+            }
+
+            if (!empty($criteria['departement'])) {
+                $queryBuilder->andWhere("g.departement = :departement")
+                    ->setParameter('departement', $criteria['departement']);
+            }
+        
+
+
+
+        return $queryBuilder->getQuery()->getResult();
     }
-
-
-
-    //    /**
-    //     * @return Gites[] Returns an array of Gites objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('g')
-    //            ->andWhere('g.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('g.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Gites
-    //    {
-    //        return $this->createQueryBuilder('g')
-    //            ->andWhere('g.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }

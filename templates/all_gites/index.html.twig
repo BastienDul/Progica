@@ -9,143 +9,163 @@
 
 
 		{{ form_start(form) }}
-		{{ form_row(form.laveVaiselle) }}
-		{{ form_row(form.laveLinge) }}
-		{{ form_row(form.climatisation) }}
-		{{ form_row(form.television)}}
-		{{ form_row(form.terrasse) }}
-		{{ form_row(form.bbq) }}
-		{{ form_row(form.piscinePrivee) }}
-		{{ form_row(form.piscinePublic) }}
-		{{ form_row(form.tennis) }}
-		{{ form_row(form.pingPong) }}
-		{{ form_row(form.search) }}
+		<div class="row border bg-success mt-3 py-3 text-light">
+			<h5>filtrer les equipement :</h5>
+			<div class="col-12 text-center col-md-4 text-md-start col-lg-2">
+				<p>{{ form_row(form.laveVaiselle) }}</p>
+			</div>
+			<div class="col-12 text-center col-md-4 text-md-start col-lg-2">
+				<p>{{ form_row(form.laveLinge) }}</p>
+			</div>
+			<div class="col-12 text-center col-md-4 text-md-start col-lg-2">
+				<p>{{ form_row(form.climatisation) }}</p>
+			</div>
+			<div class="col-12 text-center col-md-4 text-md-start col-lg-2">
+				<p>{{ form_row(form.television) }}</p>
+			</div>
+			<div class="col-12 text-center col-md-4 text-md-start col-lg-2">
+				<p>{{ form_row(form.terrasse) }}</p>
+			</div>
+			<div class="col-12 text-center col-md-4 text-md-start col-lg-2">
+				<p>{{ form_row(form.bbq) }}</p>
+			</div>
+			<div class="col-12 text-center col-md-4 text-md-start col-lg-2">
+				<p>{{ form_row(form.piscinePrivee) }}</p>
+			</div>
+			<div class="col-12 text-center col-md-4 text-md-start col-lg-2">
+				<p>{{ form_row(form.piscinePublic) }}</p>
+			</div>
+			<div class="col-12 text-center col-md-4 text-md-start col-lg-2">
+				<p>{{ form_row(form.tennis) }}</p>
+			</div>
+			<div class="col-12 text-center col-md-4 text-md-start col-lg-2">
+				<p>{{ form_row(form.pingPong) }}</p>
+			</div>
+
+
+		</div>
+
+		<div class="row border bg-success mt-3 p-3 text-light">
+			<div class="col-4">
+				<p>{{ form_row(form.localisation) }}</p>
+			</div>
+			<div class="col-4">
+				<p>{{ form_row(form.region) }}</p>
+			</div>
+			<div class="col-4">
+				<p>{{ form_row(form.departement) }}</p>
+			</div>
+		</div>
+		<div class="row  mt-3">
+			<div class="col-6 text-end">
+				{{ form_row(form.search, {'attr':{'class':'btn btn-success'}}) }}
+			</div>
+			<div class="col-6 text-start">
+
+				<a href="{{ path('app_all_gites') }}" class="btn btn-success">Reinitialisez les filtres</a>
+			</div>
+		</div>
 		{{ form_end(form) }}
 
 		{# Afficher les résultats ici #}
-		{% for gite in gites %}
-			{# ... affichage des détails du gîte ... #}
-			<pre>
-        {{ dump(gite) }}
-    </pre>
-		{% endfor %}
+		<div class="row mx-auto">
 
+			{% if gites is not empty %}
+				{% for gite in gites %}
 
-		{# <div class="row">
-						{% for result in afficher %}
-							<div class="card col-5 mx-auto my-3">
-								<div class="card-body ">
-									<h5 class="card-title">Nom:
-										{{ result.nom }}</h5>
-									<p class="card-text">localisation:
-										{{ result.localisation }}</p>
-									<p class="card-text">Surface habitable:
-										{{ result.surfacehHabitable }}</p>
-									<p class="card-text">Nombre de chambres:
-										{{ result.nombreChambres }}</p>
-									<p class="card-text">Nombre de couchages:
-										{{ result.nombreCouchage }}</p>
-									<p class="card-text">Accepte les animaux:
-										{{ result.accepteAnimaux ? 'Oui' : 'Non' }}</p>
+					<div class="card col-12 col-md-12 col-lg-12 mx-auto my-3">
+						<div class="card-body ">
+							<h3 class="card-title">Nom:
+								{{ gite.nom }}</h3>
+							<p class="card-text">localisation:
+								{{ gite.localisation }}</p>
+							<p class="card-text">Surface habitable:
+								{{ gite.surfacehHabitable }}</p>
+							<p class="card-text">Nombre de chambres:
+								{{ gite.nombreChambres }}</p>
+							<p class="card-text">Nombre de couchages:
+								{{ gite.nombreCouchage }}</p>
+							<p class="card-text">Accepte les animaux:
+								{{ gite.accepteAnimaux ? 'Oui' : 'Non' }}</p>
+
+							{% for equipement in gite.equipement %}
+								<ul>
+									<li>Équipement :
+									</li>
 									<ul>
-										<li>Propriétaire:
+										<li>
+											lave-vaiselle :
+											{{equipement.laveVaiselle ? 'Oui' : 'Non'}}
 										</li>
-										<ul>
-											<li>{{ result.proprietaires.prenom ~ " " ~ result.proprietaires.nom }}
-											</li>
-											<li>{{ result.proprietaires.email }}
-											</li>
-											<li>{{ result.proprietaires.telephone }}
-											</li>
-			
-										</ul>
+										<li>
+											lave-linge :
+											{{equipement.laveLinge ? 'Oui' : 'Non'}}
+										</li>
+										<li>
+											climatisation :
+											{{equipement.climatisation ? 'Oui' : 'Non'}}
+										</li>
+										<li>
+											television :
+											{{equipement.television ? 'Oui' : 'Non'}}
+										</li>
+										<li>
+											terrasse :
+											{{equipement.terrasse ? 'Oui' : 'Non'}}
+										</li>
+										<li>
+											barbecue :
+											{{equipement.bbq ? 'Oui' : 'Non'}}
+										</li>
+										<li>
+											piscine privée :
+											{{equipement.piscinePrivee ? 'Oui' : 'Non'}}
+										</li>
+										<li>
+											piscine public :
+											{{equipement.piscinePublic ? 'Oui' : 'Non'}}
+										</li>
+										<li>
+											tennis :
+											{{equipement.tennis ? 'Oui' : 'Non'}}
+										</li>
+										<li>
+											ping-pong :
+											{{equipement.pingPong ? 'Oui' : 'Non'}}
+										</li>
 									</ul>
+								</ul>
+							{% endfor %}
+							{% for tarifLocatif in gite.tarifLocation %}
+								<ul>
+									<li>tarif hebdomadaire :
+										{{tarifLocatif.tarifHebdomadaire}}
+									</li>
+								</ul>
+							{% endfor %}
+
+							{% if gite.accepteAnimaux %}
+								{% for tarifAnimaux in gite.tarifAnimaux %}
 									<ul>
-										<li>Contact :
+										<li>Tarif pour les animaux :
+											{{ tarifAnimaux.tarif }}
 										</li>
-										<ul>
-											<li>{{ result.contact.prenom ~ " " ~ result.contact.nom }}
-											</li>
-											<li>{{ result.contact.email }}
-											</li>
-											<li>{{ result.contact.telephone }}
-											</li>
-											<li>{{ result.contact.horairedisponibilite }}
-											</li>
-										</ul>
 									</ul>
-									{% for equipement in result.equipement %}
-										<ul>
-											<li>Équipement :
-											</li>
-											<ul>
-												<li>
-													lave-vaiselle :
-													{{equipement.laveVaiselle ? 'Oui' : 'Non'}}
-												</li>
-												<li>
-													lave-linge :
-													{{equipement.laveLinge ? 'Oui' : 'Non'}}
-												</li>
-												<li>
-													climatisation :
-													{{equipement.climatisation ? 'Oui' : 'Non'}}
-												</li>
-												<li>
-													television :
-													{{equipement.television ? 'Oui' : 'Non'}}
-												</li>
-												<li>
-													terrasse :
-													{{equipement.terrasse ? 'Oui' : 'Non'}}
-												</li>
-												<li>
-													barbecue :
-													{{equipement.bbq ? 'Oui' : 'Non'}}
-												</li>
-												<li>
-													piscine privée :
-													{{equipement.piscinePrivee ? 'Oui' : 'Non'}}
-												</li>
-												<li>
-													piscine public :
-													{{equipement.piscinePublic ? 'Oui' : 'Non'}}
-												</li>
-												<li>
-													tennis :
-													{{equipement.tennis ? 'Oui' : 'Non'}}
-												</li>
-												<li>
-													ping-pong :
-													{{equipement.pingPong ? 'Oui' : 'Non'}}
-												</li>
-											</ul>
-										</ul>
-									{% endfor %}
-									{% for tarifLocatif in result.tarifLocation %}
-										<ul>
-											<li>tarif hebdomadaire :
-												{{tarifLocatif.tarifHebdomadaire}}
-											</li>
-										</ul>
-									{% endfor %}
-			
-									{% if result.accepteAnimaux %}
-										{% for tarifAnimaux in result.tarifAnimaux %}
-											<ul>
-												<li>Tarif pour les animaux :
-													{{ tarifAnimaux.tarif }}
-												</li>
-											</ul>
-										{% endfor %}
-										{% else %}
-			
-									{% endif %}
-			
-			
-								</div>
-							</div>
-						{% endfor %}
+								{% endfor %}
+								{% else %}
+
+							{% endif %}
+						</div>
 					</div>
-				</div> #}
-	{% endblock %}
+				{% endfor %}
+
+
+			</div>
+		{% endif %}
+	</div>
+
+
+</div>
+<div class="footerdiv">
+</div>
+{% endblock %}

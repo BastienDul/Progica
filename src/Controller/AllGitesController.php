@@ -32,21 +32,13 @@ class AllGitesController extends AbstractController
             // Vous devrez implémenter la logique de recherche dans votre GiteRepository
             $gites = $gitesRepository->findByEquipementsCriteria($data);
 
-            // return $this->redirectToRoute('app_all_gites');
         }
 
         return $this->render('all_gites/index.html.twig', [
-            // 'afficher' => $result,
+            'afficher' => $result,
             'form' => $form->createView(),
             'gites' => $gites,
         ]);
-
-        // return $this->render('all_gites/index.html.twig', [
-        //     'controller_name' => 'AllGitesController',
-        //     'afficher' => $result,
-        //     // 'searchForm' => $searchForm->createView(),
-        //     // 'resultat' => $searchResult,
-        // ]);
 
 
     }

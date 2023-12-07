@@ -18,6 +18,8 @@ class AddGitesType extends AbstractType
     {
         $builder
             ->add('localisation')
+            ->add('region')
+            ->add('departement')
             ->add('surfacehHabitable')
             ->add('nombreChambres')
             ->add('nombreCouchage')

@@ -23,6 +23,15 @@ class Gites
     #[ORM\Column(length: 255)]
     private ?string $localisation = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $region = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $departement = null;
+    
+
+
+
     #[ORM\Column]
     private ?float $surfacehHabitable = null;
 
@@ -261,6 +270,46 @@ class Gites
     public function setEquipement($equipement)
     {
         $this->equipement = $equipement;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of departement
+     */ 
+    public function getDepartement()
+    {
+        return $this->departement;
+    }
+
+    /**
+     * Set the value of departement
+     *
+     * @return  self
+     */ 
+    public function setDepartement($departement)
+    {
+        $this->departement = $departement;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of region
+     */ 
+    public function getRegion()
+    {
+        return $this->region;
+    }
+
+    /**
+     * Set the value of region
+     *
+     * @return  self
+     */ 
+    public function setRegion($region)
+    {
+        $this->region = $region;
 
         return $this;
     }
